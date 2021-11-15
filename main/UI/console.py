@@ -1,6 +1,7 @@
 from Domain.cheltuiala import toString
 from Logic.CRUD import adaugaCheltuiala, stergereCheltuiala, modificareCheltuiala
-from Logic.functionalitati import stergereToateCheltuielileDupaNrApartament
+from Logic.functionalitati import stergereToateCheltuielileDupaNrApartament, adunareValoareLaCheltuialaDinData, \
+    ceaMaiMareCheltuiala
 
 
 def printMenu():
@@ -8,17 +9,23 @@ def printMenu():
     print("2. Sterge cheltuiala")
     print("3. Modifica cheltuiala")
     print("4. Șterge toate cheltuielile pentru un apartament dat")
+    print("5. Adunarea unei valori citite la toate cheltuielile dintr-o dată citită")
+    print("6. Determinarea celei mai mari cheltuieli pentru fiecare tip de cheltuială")
     print("a. Afiseaza toate cheltuielile")
     print("x. Iesire")
 
 
 def uiAdaugaCheltuiala(lista):
-    Id = input("Dati id-ul: ")
-    NrApartament = input("Dati apartamentul: ")
-    Suma = float(input("Dati suma: "))
-    Data = input("Dati data DD.MM.YYYY: ")
-    Tip = input("Dati tip-ul: ")
-    return adaugaCheltuiala(Id, NrApartament, Suma, Data, Tip, lista)
+    try:
+        Id = input("Dati id-ul: ")
+        NrApartament = input("Dati apartamentul: ")
+        Suma = float(input("Dati suma: "))
+        Data = input("Dati data DD.MM.YYYY: ")
+        Tip = input("Dati tip-ul: ")
+        return adaugaCheltuiala(Id, NrApartament, Suma, Data, Tip, lista)
+    except ValueError as ve:
+        print("Eroare: {}".format(ve))
+        return lista
 
 
 def uiStergeCheltuiala(lista):
@@ -27,13 +34,16 @@ def uiStergeCheltuiala(lista):
 
 
 def uiModificareCheltuiala(lista):
-    Id = input("Dati id-ul cheltuielii de modificat: ")
-    NrApartament = input("Dati noul apartament: ")
-    Suma = float(input("Dati noua suma: "))
-    Data = input("Dati noua data DD.MM.YYYY: ")
-    Tip = input("Dati noul tip: ")
-    return modificareCheltuiala(Id, NrApartament, Suma, Data, Tip, lista)
-
+    try:
+        Id = input("Dati id-ul cheltuielii de modificat: ")
+        NrApartament = input("Dati noul apartament: ")
+        Suma = float(input("Dati noua suma: "))
+        Data = input("Dati noua data DD.MM.YYYY: ")
+        Tip = input("Dati noul tip: ")
+        return modificareCheltuiala(Id, NrApartament, Suma, Data, Tip, lista)
+    except ValueError as ve:
+        print("Eroare: {}".format(ve))
+        return lista
 
 def showAll(lista):
     for cheltuiala in lista:
@@ -41,8 +51,36 @@ def showAll(lista):
 
 
 def uiStergereToateCheltuielileDupaNrApartament(lista):
-    NrApartament = int(input("Dati numarul apartamentului caruia sa ii se stearga toate cheltuielile: "))
-    return stergereToateCheltuielileDupaNrApartament(NrApartament, lista)
+    try:
+        NrApartament = int(input("Dati numarul apartamentului caruia sa ii se stearga toate cheltuielile: "))
+        return stergereToateCheltuielileDupaNrApartament(NrApartament, lista)
+    except ValueError as ve:
+        print("Eroare: {}".format(ve))
+        return lista
+
+def uiAdunareValoareLaCheltuialaDinData(lista):
+    try:
+        Data = input("Dati data sub format DD.MM.YYYY: ")
+        Valoare = float(input("Dati valoarea de adaugat cheltuielilor: "))
+        return adunareValoareLaCheltuialaDinData(Data, Valoare, lista)
+    except ValueError as ve:
+        print("Eroare: {}".format(ve))
+        return lista
+
+def uiCeaMaiMareCheltuiala(lista):
+    lista, tuplu = ceaMaiMareCheltuiala(lista)
+    if tuplu[0] is None:
+        print("Nu avem cheltuieli de tip întreținere")
+    else:
+        print("Cea mai mare cheltuiala de tip întreținere are ID-ul: ", tuplu[0])
+    if tuplu[1] is None:
+        print("Nu avem cheltuieli de tip canal")
+    else:
+        print("Cea mai mare cheltuiala de tip canal are ID-ul: ", tuplu[1])
+    if tuplu[2] is None:
+        print("Nu avem cheltuieli de tip alte cheltuieli")
+    else:
+        print("Cea mai mare cheltuiala de tip alte cheltuieli are ID-ul: ", tuplu[2])
 
 
 def runMenu(lista):
@@ -58,6 +96,10 @@ def runMenu(lista):
             lista = uiModificareCheltuiala(lista)
         elif optiune == "4":
             lista = uiStergereToateCheltuielileDupaNrApartament(lista)
+        elif optiune == "5":
+            lista = uiAdunareValoareLaCheltuialaDinData(lista)
+        elif optiune == "6":
+            lista = uiCeaMaiMareCheltuiala(lista)
         elif optiune == "a":
             showAll(lista)
         elif optiune == "x":
