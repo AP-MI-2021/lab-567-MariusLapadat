@@ -4,7 +4,7 @@ from Logic.functionalitati import stergereToateCheltuielileDupaNrApartament, adu
     ceaMaiMareCheltuiala, ordonareCheltuieliDescrescatorDupaSuma, afisareSumeLunareApartamente
 
 
-def printMenu(listaUndo,listaRedo):
+def printMenu(listaUndo, listaRedo):
     print("1. Adauga cheltuiala")
     print("2. Sterge cheltuiala")
     print("3. Modifica cheltuiala")
@@ -21,7 +21,7 @@ def printMenu(listaUndo,listaRedo):
     print("x. Iesire")
 
 
-def uiAdaugaCheltuiala(lista,listaUndo,listaRedo):
+def uiAdaugaCheltuiala(lista, listaUndo, listaRedo):
     try:
         Id = input("Dati id-ul: ")
         NrApartament = input("Dati apartamentul: ")
@@ -36,7 +36,7 @@ def uiAdaugaCheltuiala(lista,listaUndo,listaRedo):
         return lista
 
 
-def uiStergeCheltuiala(lista,listaUndo,listaRedo):
+def uiStergeCheltuiala(lista, listaUndo, listaRedo):
     try:
         Id = input("Dati id-ul cheltuielii de sters: ")
         listaUndo.append(lista)
@@ -47,7 +47,7 @@ def uiStergeCheltuiala(lista,listaUndo,listaRedo):
         return lista
 
 
-def uiModificareCheltuiala(lista,listaUndo,listaRedo):
+def uiModificareCheltuiala(lista, listaUndo, listaRedo):
     try:
         Id = input("Dati id-ul cheltuielii de modificat: ")
         NrApartament = input("Dati noul apartament: ")
@@ -67,24 +67,24 @@ def showAll(lista):
         print(toString(cheltuiala))
 
 
-def uiStergereToateCheltuielileDupaNrApartament(lista,listaUndo,listaRedo):
+def uiStergereToateCheltuielileDupaNrApartament(lista, listaUndo, listaRedo):
     try:
-        NrApartament = int(input("Dati numarul apartamentului caruia sa ii se stearga toate cheltuielile: "))
         listaUndo.append(lista)
         listaRedo.clear()
+        NrApartament = int(input("Dati numarul apartamentului caruia sa ii se stearga toate cheltuielile: "))
         return stergereToateCheltuielileDupaNrApartament(NrApartament, lista)
     except ValueError as ve:
         print("Eroare: {}".format(ve))
         return lista
 
 
-def uiAdunareValoareLaCheltuialaDinData(lista,listaUndo,listaRedo):
+def uiAdunareValoareLaCheltuialaDinData(lista, listaUndo, listaRedo):
     try:
-        Data = input("Dati data sub format DD.MM.YYYY: ")
-        Valoare = float(input("Dati valoarea de adaugat cheltuielilor: "))
         listaUndo.append(lista)
         listaRedo.clear()
-        return adunareValoareLaCheltuialaDinData(Data, Valoare, lista)
+        Data = input("Dati data sub format DD.MM.YYYY: ")
+        Valoare = int(input("Dati valoarea de adaugat cheltuielilor: "))
+        return adunareValoareLaCheltuialaDinData(Data,Valoare,lista)
     except ValueError as ve:
         print("Eroare: {}".format(ve))
         return lista
@@ -107,7 +107,7 @@ def uiCeaMaiMareCheltuiala(lista):
     return lista
 
 
-def uiOrdonareCheltuieliDescrescatorDupaSuma(lista,listaUndo,listaRedo):
+def uiOrdonareCheltuieliDescrescatorDupaSuma(lista, listaUndo, listaRedo):
     listaUndo.append(lista)
     listaRedo.clear()
     lista = ordonareCheltuieliDescrescatorDupaSuma(lista)
@@ -118,27 +118,28 @@ def uiAfisareSumeLunareApartamente(lista):
     lista, rezultat = afisareSumeLunareApartamente(lista)
     for luna in rezultat:
         print("Luna {} are suma totala {}.".format(luna, rezultat[luna]))
+    return lista
 
 
-def runMenu(lista,listaUndo,listaRedo):
+def runMenu(lista, listaUndo, listaRedo):
     while True:
-        printMenu(listaUndo,listaRedo)
+        printMenu(listaUndo, listaRedo)
         optiune = input("Dati optiunea: ")
 
         if optiune == "1":
-            lista = uiAdaugaCheltuiala(lista,listaUndo,listaRedo)
+            lista = uiAdaugaCheltuiala(lista, listaUndo, listaRedo)
         elif optiune == "2":
-            lista = uiStergeCheltuiala(lista,listaUndo,listaRedo)
+            lista = uiStergeCheltuiala(lista, listaUndo, listaRedo)
         elif optiune == "3":
-            lista = uiModificareCheltuiala(lista,listaUndo,listaRedo)
+            lista = uiModificareCheltuiala(lista, listaUndo, listaRedo)
         elif optiune == "4":
-            lista = uiStergereToateCheltuielileDupaNrApartament(lista,listaUndo,listaRedo)
+            lista = uiStergereToateCheltuielileDupaNrApartament(lista, listaUndo, listaRedo)
         elif optiune == "5":
-            lista = uiAdunareValoareLaCheltuialaDinData(lista,listaUndo,listaRedo)
+            lista = uiAdunareValoareLaCheltuialaDinData(lista, listaUndo, listaRedo)
         elif optiune == "6":
             lista = uiCeaMaiMareCheltuiala(lista)
         elif optiune == "7":
-            lista = uiOrdonareCheltuieliDescrescatorDupaSuma(lista,listaUndo,listaRedo)
+            lista = uiOrdonareCheltuieliDescrescatorDupaSuma(lista, listaUndo, listaRedo)
         elif optiune == "8":
             lista = uiAfisareSumeLunareApartamente(lista)
         elif optiune == "u":

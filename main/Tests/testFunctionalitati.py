@@ -48,39 +48,39 @@ def testafisareSumeLunareApartamente():
     lista3 = adaugaCheltuiala("4", 25, 200, "05.07.2003", "intretinere", lista3)
     lista3 = adaugaCheltuiala("5", 20, 50, "20.04.2003", "intretinere", lista3)
 
-    lista3,rezultat = afisareSumeLunareApartamente(lista3)
+    lista3, rezultat = afisareSumeLunareApartamente(lista3)
     assert rezultat['04'] == 350
     assert rezultat['07'] == 200
 
 
 def testUndoRedo():
-    lista4=[]
-    listaUndo=[]
-    listaRedo=[]
+    lista4 = []
+    listaUndo1 = []
+    listaRedo1 = []
 
-    listaUndo.append(lista4)
+    listaUndo1.append(lista4)
     lista4 = adaugaCheltuiala("1", 27, 150, "09.04.2000", "canal", lista4)
 
-    listaUndo.append(lista4)
+    listaUndo1.append(lista4)
     lista4 = adaugaCheltuiala("2", 25, 200, "05.07.2003", "intretinere", lista4)
 
-    listaUndo.append(lista4)
+    listaUndo1.append(lista4)
     lista4 = adaugaCheltuiala("3", 20, 50, "20.04.2003", "intretinere", lista4)
 
     assert getId(lista4[0]) == "1"
     assert getId(lista4[1]) == "2"
     assert getId(lista4[2]) == "3"
 
-    listaRedo.append(lista4)
-    lista4=listaUndo.pop()
-    assert len(lista4)==2
-    assert listaUndo == [[], [["1", 27, 150, "09.04.2000", "canal"]]]
+    listaRedo1.append(lista4)
+    lista4 = listaUndo1.pop()
+    assert len(lista4) == 2
+    assert listaUndo1 == [[], [["1", 27, 150, "09.04.2000", "canal"]]]
 
-    listaRedo.append(lista4)
-    lista4=listaUndo.pop()
-    assert len(lista4)==1
-    assert listaUndo == [[]]
+    listaRedo1.append(lista4)
+    lista4 = listaUndo1.pop()
+    assert len(lista4) == 1
+    assert listaUndo1 == [[]]
 
-    listaUndo.append(lista4)
-    lista4=listaRedo.pop()
-    assert len(lista4)==2
+    listaUndo1.append(lista4)
+    lista4 = listaRedo1.pop()
+    assert len(lista4) == 2

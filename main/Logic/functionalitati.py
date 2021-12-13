@@ -1,4 +1,5 @@
-from Domain.cheltuiala import getNrApartament, getData, getSuma
+from Domain.cheltuiala import getNrApartament, getData, getSuma, getId, getTip, creeazaCheltuiala
+from Logic.CRUD import modificareCheltuiala, adaugaCheltuiala
 
 
 def stergereToateCheltuielileDupaNrApartament(NrApartament, lista):
@@ -8,12 +9,13 @@ def stergereToateCheltuielileDupaNrApartament(NrApartament, lista):
     :param lista: lista de cheltuieli
     :return: lista de cheltuieli fara cele ale apartamentului specificat
     """
-    listaNoua=[]
+    listaNoua = []
     for cheltuiala in lista:
         print(getNrApartament(cheltuiala))
         if getNrApartament(cheltuiala) == NrApartament:
             listaNoua.append(cheltuiala)
     return listaNoua
+
 
 def adunareValoareLaCheltuialaDinData(Data, Valoare, lista):
     """
@@ -22,10 +24,13 @@ def adunareValoareLaCheltuialaDinData(Data, Valoare, lista):
     :param lista:
     :return: lista de cheltuieli la care se adauga o valoare citita la cheltuielile dintr-o data specifica
     """
+    listaNoua=[]
     for cheltuiala in lista:
-        if getData(cheltuiala) == Data:
-            cheltuiala[2] = cheltuiala[2] + Valoare
-    return lista
+        if getData(cheltuiala) != Data:
+            listaNoua.append(cheltuiala)
+        else:
+            listaNoua.append(creeazaCheltuiala(getId(cheltuiala),getNrApartament(cheltuiala),getSuma(cheltuiala)+Valoare,getData(cheltuiala),getTip(cheltuiala)))
+    return listaNoua
 
 
 def ceaMaiMareCheltuiala(lista):
@@ -56,28 +61,7 @@ def ordonareCheltuieliDescrescatorDupaSuma(lista):
     :param lista:
     :return:
     """
-    for cheltuiala1 in lista:
-        for cheltuiala2 in lista:
-            if getSuma(cheltuiala1) > getSuma(cheltuiala2):
-                v0 = cheltuiala1[0]
-                v1 = cheltuiala1[1]
-                v2 = cheltuiala1[2]
-                v3 = cheltuiala1[3]
-                v4 = cheltuiala1[4]
-
-                cheltuiala1[0] = cheltuiala2[0]
-                cheltuiala1[1] = cheltuiala2[1]
-                cheltuiala1[2] = cheltuiala2[2]
-                cheltuiala1[3] = cheltuiala2[3]
-                cheltuiala1[4] = cheltuiala2[4]
-
-                cheltuiala2[0] = v0
-                cheltuiala2[1] = v1
-                cheltuiala2[2] = v2
-                cheltuiala2[3] = v3
-                cheltuiala2[4] = v4
-
-    return lista
+    return sorted(lista, key=getSuma, reverse=True)
 
 
 def afisareSumeLunareApartamente(lista):
@@ -94,4 +78,4 @@ def afisareSumeLunareApartamente(lista):
             rezultat[data] = rezultat[data] + pret
         else:
             rezultat[data] = pret
-    return lista , rezultat
+    return lista, rezultat
